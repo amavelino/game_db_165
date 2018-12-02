@@ -11,6 +11,8 @@ class Company(models.Model):
 	name = 				models.CharField(max_length=100)
 	description = 		models.TextField()
 
+	def __str__(self):
+		return self.name
 	class Meta:
 		managed = True
 		db_table = 'company'
@@ -23,6 +25,8 @@ class Game(models.Model):
 	description = 		models.TextField()
 	made_by = 			models.ForeignKey(Company, on_delete=models.SET_NULL, db_column='name', null=True)
 
+	def __str__(self):
+		return self.gid
 	class Meta:
 		managed = True
 		db_table = 'game'
@@ -36,6 +40,8 @@ class Comment(models.Model):
 	date_created = 		models.DateField()
 	date_last_edited = 	models.DateField()
 
+	def __str__(self):
+		return self.commid
 	class Meta:
 		managed = True
 		db_table = 'comment'
@@ -45,6 +51,8 @@ class Platform(models.Model):
 	pname = 			models.TextField(primary_key=True, unique=True)
 	description = 		models.TextField()
 
+	def __str__(self):
+		return self.pname
 	class Meta:
 		managed = True
 		db_table = 'platform'
@@ -53,6 +61,8 @@ class Genre(models.Model):
 	gname = 			models.TextField(primary_key=True, unique=True)
 	description = 		models.TextField()
 
+	def __str__(self):
+		return self.gname
 	class Meta:
 		managed = True
 		db_table = 'genre'
