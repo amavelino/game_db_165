@@ -1,11 +1,5 @@
 from django.db import models
 
-# Create your models here.
-class User_acct(models.Model):
-	uid =				models.AutoField(primary_key=True, unique=True)
-	username = 			models.CharField(max_length=30)
-	# integrate with built-in django users ??
-
 class Company(models.Model):
 	compid = 			models.AutoField(primary_key=True, unique=True)
 	name = 				models.CharField(max_length=100)
