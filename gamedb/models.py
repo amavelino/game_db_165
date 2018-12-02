@@ -14,7 +14,6 @@ class Company(models.Model):
 	class Meta:
 		managed = True
 		db_table = 'company'
-		unique_together = ()
 
 class Game(models.Model):
 	gid = 				models.AutoField(primary_key=True, unique=True)
@@ -22,24 +21,25 @@ class Game(models.Model):
 	game_type = 		models.TextField()
 	release_date = 		models.DateField()
 	description = 		models.TextField()
+	made_by = 			models.ForeignKey(Company, on_delete=models.SET_NULL, db_column='name', null=True)
 
 	class Meta:
 		managed = True
 		db_table = 'game'
-		unique_together = ()
+		#unique_together = ()
 
 class Comment(models.Model):
 	commid = 			models.AutoField(primary_key=True, unique=True)
 	gid =				models.ForeignKey(Game, on_delete=models.CASCADE, db_column='gid')
 	content = 			models.CharField(max_length=500)
-	rating = 			models.IntegerField(min_value=1, max_value=5)
+	rating = 			models.IntegerField()#min_value=1, max_value=5)
 	date_created = 		models.DateField()
 	date_last_edited = 	models.DateField()
 
 	class Meta:
 		managed = True
 		db_table = 'comment'
-		unique_together = ()
+		#unique_together = ()
 
 class Platform(models.Model):
 	pname = 			models.TextField(primary_key=True, unique=True)
