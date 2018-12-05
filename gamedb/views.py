@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Game
+import datetime
+from django.utils import timezone
+from .models import Game, Comment
 from .forms import CompanyForm, GameForm, CommentForm
 
 @login_required
@@ -29,14 +31,13 @@ def add_game(request):
 def add_comment(request, gid):
 	game = Game.objects.get(pk=gid)
 
-
 	if request.method == "POST":
 		form = CommentForm(request.POST)
 		if form.is_valid():
 			comment = form.save(commit=False)
 			comment.date_created = timezone.now()
 			comment.date_last_edited = timezone.now()
-			comment.gid = gid
+			comment.gid = game
 			comment.save()
 	else:
 		form = CommentForm()
@@ -45,3 +46,9 @@ def add_comment(request, gid):
 def show_games(request):
 	items = Game.objects.all()
 	return render(request, 'show-games.html', {'game_list':items})
+
+def show_game_info(request, gid):
+	game = Game.objects.get(pk=gid)
+	comments = Comment.objects.filter(gid=gid)
+
+	return render(request, 'show-game-info.html', {'game':game, 'comments':comments})
