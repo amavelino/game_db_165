@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Game
 from .forms import CompanyForm, GameForm, CommentForm
 
-# Create your views here.
+@login_required
 def add_company(request):
 	if request.method == "POST":
 		form = CompanyForm(request.POST)
@@ -12,7 +13,8 @@ def add_company(request):
 	else:
 		form = CompanyForm()
 	return render(request, 'add.html', {'form':form, 'item': "Company"})
-	
+
+@login_required
 def add_game(request):
 	if request.method == "POST":
 		form = GameForm(request.POST)
@@ -23,6 +25,7 @@ def add_game(request):
 		form = GameForm()
 	return render(request, 'add.html', {'form':form, 'item':"Game"})
 
+@login_required
 def add_comment(request, gid):
 	game = Game.objects.get(pk=gid)
 
