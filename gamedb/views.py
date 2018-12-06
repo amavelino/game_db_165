@@ -7,6 +7,7 @@ from .forms import CompanyForm, GameForm, CommentForm
 
 @login_required
 def add_company(request):
+	active_item = "gamesCompanyAdd"
 	if request.method == "POST":
 		form = CompanyForm(request.POST)
 		if form.is_valid():
@@ -14,10 +15,11 @@ def add_company(request):
 			company.save()
 	else:
 		form = CompanyForm()
-	return render(request, 'add.html', {'form':form, 'item': "Company"})
+	return render(request, 'add.html', {'form':form, 'item': "Company", 'active': active_item})
 
 @login_required
 def add_game(request):
+	active_item = "gamesAdd"
 	if request.method == "POST":
 		form = GameForm(request.POST)
 		if form.is_valid():
@@ -25,7 +27,7 @@ def add_game(request):
 			game.save()
 	else:
 		form = GameForm()
-	return render(request, 'add.html', {'form':form, 'item':"Game"})
+	return render(request, 'add.html', {'form':form, 'item':"Game", 'active' : active_item})
 
 @login_required
 def add_comment(request, gid):
@@ -44,8 +46,9 @@ def add_comment(request, gid):
 	return render(request, 'add.html', {'form':form, 'item':"Comment", 'game':game.title})
 
 def show_games(request):
+	active_item = "gamesList"
 	items = Game.objects.all()
-	return render(request, 'show-games.html', {'game_list':items})
+	return render(request, 'show-games.html', {'game_list':items, 'active' : active_item})
 
 def show_game_info(request, gid):
 	game = Game.objects.get(pk=gid)
