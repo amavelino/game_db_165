@@ -85,3 +85,19 @@ def add_comment(request, gid):
 	else:
 		form = CommentForm()
 	return render(request, 'add.html', {'form':form, 'item':"Comment", 'game':game.title})
+
+@login_required
+def edit_comment(request, gid, commid):
+	game = Game.objects.get(pk=gid)
+	comment_obj = Comment.objects.get(pk=commid)
+
+	if request.method == "POST":
+		form = CommentForm(request.POST, instance=comment_obj)
+		if form.is_valid():
+			comment = form.save(commit=False)
+			comment.date_last_edited = timezone.now()
+			comment.gid = game
+			comment.save()
+	else:
+		form = CommentForm(instance=comment_obj)
+	return render(request, 'edit.html', {'form':form, 'item':"Comment", 'game':game.title})
