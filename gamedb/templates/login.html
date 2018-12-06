@@ -4,11 +4,34 @@
 	<h2>
 		Login
 	</h2>
-	<form method="POST" class="post-form">{% csrf_token %}
-		<input name="username" placeholder="Username" type="text" />
-		<input name="password" placeholder="Password" type="password" />
-		<button type="submit">Login</button>
-	</form>
+
+
+	<div class="ui fluid red-border card">
+			<div class="ui top attached label"><i class="sign in icon"></i>Enter Account Information</div>
+			<div class="content">
+				<p>
+						<form method="POST" class="ui form">{% csrf_token %}
+								<div class="field">
+										<label>Username</label>
+										<div class="ui left icon input">
+										<i class="user icon"></i><input name="username" placeholder="Username" type="text" />
+										</div>
+								</div>
+								<div class="field">
+										<label>Password</label>
+										<div class="ui left icon input">
+										<i class="lock icon"></i><input name="password" placeholder="Password" type="password" />
+									</div>
+								</div>
+								
+								<button class="right floated ui green button" type="submit">Login</button>
+								<a class="right floated ui button" href="/">Cancel</a>
+							</form>
+				</p>
+			</div>
+
+
+		</div>
 	{% if form.errors %}
 		<p>Invalid Username or Password</p>
 	{% endif %}

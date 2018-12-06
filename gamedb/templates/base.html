@@ -12,12 +12,12 @@
 			$('.nav.menu .item').click(function () {
 				document.location.href = $(this).attr("data-url");
 			});
-
+			$('.slider').glide();
 		});
 	</script>
 </head>
 
-<body style="height:91%">
+<body style="height:95%">
 	<div class="ui top fixed inverted menu" style="border-bottom: #DB2828 3px solid">
 		<div class="item">
 			<h1><a href="/" style="color:#DB2828">Game DB</a></h1>
@@ -35,26 +35,24 @@
 		<div class="right menu">
 			<div class="item">
 				<!--------- Log In/Sign Out Button --------->
+				{% if user.is_authenticated is True %}
 				<a class="ui pointing dropdown link red button">
 					<i class=" user circle icon"></i>
-					{% if user.is_authenticated is True %}{{ user.get_username }}{% else %}Guest
-					{% endif %}
+					{{ user.get_username }}
 					<div class="nav menu">
-						{% if user.is_authenticated is True %}
 						<div class="item" data-url="{% url 'logout' %}"><i class="sign out icon"></i> Sign Out</div>
-						{% else %}
-						<div class="item" data-url="{% url 'login' %}"><i class="sign in icon"></i>Log in</div>
-						{% endif %}
 						<!-- <div class="disabled item"><i class="help icon"></i> Help</div> -->
 					</div>
 				</a>
-
+				{% else %}
+				<a class="ui inverted grey button" href="{% url 'login' %}"><i class="sign in icon"></i>Log in</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
-	<div class="ui container" style="margin-top:6rem;">
+	<div class="ui grid container" style="margin-top:3rem;">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="column">
 				{% block content %}
 				{% endblock %}
 			</div>

@@ -28129,6 +28129,29 @@ Floated Menu / Item
   margin-bottom: 0em;
 }
 
+.ui.red-border.cards > .card,
+.ui.cards > .red-border.card,
+.ui.red-border.card {
+  border-top: 2px solid #DB2828 !important;
+}
+
+.ui.yellow-border.cards > .card,
+.ui.cards > .yellow-border.card,
+.ui.yellow-border.card {
+  border-top: 2px solid #FBBD08 !important;
+}
+
+.ui.green-border.cards > .card,
+.ui.cards > .green-border.card,
+.ui.green-border.card {
+  border-top: 2px solid #21BA45 !important;
+}
+
+.ui.blue-border.cards > .card,
+.ui.cards > .blue-border.card,
+.ui.blue-border.card {
+  border-top: 2px solid #2185D0 !important;
+}
 /*--------------
       Cards
 ---------------*/
