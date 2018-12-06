@@ -24,6 +24,8 @@
 		</div>
 		<a class="red {% ifequal active 'gamesList'%} active {% endifequal %} item" href="{% url 'show_games' %}">List of
 			Games</a>
+		<a class="red {% ifequal active 'gamesCompanyList'%} active {% endifequal %} item" href="{% url 'show_company' %}"
+		 class="top-menu">List of Companies</a>
 		{% if user.is_authenticated %}
 		<a class="red {% ifequal active 'gamesCompanyAdd'%} active {% endifequal %} item" href="{% url 'add_company' %}">Add
 			Company</a>
