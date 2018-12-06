@@ -6,6 +6,7 @@
 	<body>
 		<div class="page-header">
 			<a href="{% url 'show_games' %}" class="top-menu">List of Games</a>
+			<a href="{% url 'show_company' %}" class="top-menu">List of Companies</a>
 			{% if user.is_authenticated %}
 			<a href="{% url 'add_company' %}" class="top-menu">Add Company</a>
 			<a href="{% url 'add_game' %}" class="top-menu">Add Game</a>
