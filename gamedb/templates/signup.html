@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>
+	Sign Up
+</h2>
+
+<div class="ui fluid red-border card">
+	<div class="ui top attached label"><i class="sign in icon"></i>Enter Account Information</div>
+	<div class="content">
+		<p>
+			<form method="POST" class="ui form">{% csrf_token %}
+				<div class="field">
+					<label>Username</label>
+					<div class="ui left icon input">
+						<i class="user icon"></i><input name="username" placeholder="Username" type="text" />
+					</div>
+				</div>
+				<div class="field">
+					<label>E-mail</label>
+					<div class="ui left icon input">
+						<i class="user icon"></i><input name="email" placeholder="E-mail" type="text" />
+					</div>
+				</div>
+				<div class="field">
+					<label>Password</label>
+					<div class="ui left icon input">
+						<i class="lock icon"></i><input name="password" placeholder="Password" type="password" />
+					</div>
+				</div>
+
+				<button class="right floated ui green button" type="submit">Sign Up</button>
+				<a class="right floated ui button" href="/">Cancel</a>
+			</form>
+		</p>
+	</div>
+</div>
+{% if form.errors %}
+<div class="ui negative message">
+		
+		<div class="header">
+				Action Forbidden
+		</div>
+		<p>Invalid Username or Password</p></div>
+
+{% endif %}
+{% endblock %}

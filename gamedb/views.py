@@ -1,10 +1,27 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, QueryDict
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.utils import timezone
 from .models import Game, Comment, Company
+from django.contrib.auth.models import User
 from .forms import CompanyForm, GameForm, CommentForm
+
+def signup(request):
+	if request.method == "POST":
+		username = request.POST['username']
+		password = request.POST['password']
+		email = request.POST['email']
+
+		user_obj = User.objects.create_user(username, email, password)
+
+		user = authenticate(username=username, password=password)
+		login(request, user)
+		return redirect('home')
+	form = None
+
+	return render(request, 'signup.html', {'form':form})
 
 @login_required
 def add_company(request):
