@@ -39,8 +39,8 @@
 					</div>
 				</a>
 				{% else %}
-				<a class="ui inverted grey button" href="{% url 'login' %}"><i class="sign in icon"></i>Log in</a>
-				<a class="ui inverted grey button" href="{% url 'signup' %}"><i class="sign in icon"></i>Sign Up</a>
+				<a class="ui inverted grey button" href="{% url 'signup' %}" style="margin-right:5px">Sign Up</a>
+				<a class="ui  button" href="{% url 'login' %}"><i class="sign in icon"></i>Log in</a>
 				{% endif %}
 			</div>
 		</div>
