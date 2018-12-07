@@ -8,6 +8,9 @@ from .models import Game, Comment, Company
 from django.contrib.auth.models import User
 from .forms import CompanyForm, GameForm, CommentForm
 
+# --------------------------------------------------------- #
+#							Sign up 						#
+# --------------------------------------------------------- #
 def signup(request):
 	if request.method == "POST":
 		username = request.POST['username']
@@ -23,11 +26,16 @@ def signup(request):
 
 	return render(request, 'signup.html', {'form':form})
 
+
+# --------------------------------------------------------- #
+#							Company 						#
+# --------------------------------------------------------- #
 @login_required
 def add_company(request):
 	active = "gamesCompanyAdd"
 	return render(request, 'add-company.html', {'item': "Company", 'active': active})
 
+@login_required
 def add_company_action(request):
 	active = "gamesCompanyAdd"
 	if request.method == "POST":
@@ -47,17 +55,34 @@ def show_company(request):
 @login_required
 def edit_company(request, compid):
 	company_obj = Company.objects.get(pk=compid)
+	
+	company_details = {}
+	company_details['compid'] = company_obj.compid
+	company_details['name'] = company_obj.name
+	company_details['desc'] = company_obj.description
 
+	form = QueryDict('', mutable=True)
+	form.update(company_details)
+
+	return render(request, 'edit-company.html', {'form':form, 'item': "Company"})
+
+@login_required
+def edit_company_action(request, compid):
 	if request.method == "POST":
-		form = CompanyForm(request.POST, instance=company_obj)
-		if form.is_valid():
-			company = form.save(commit=False)
-			company.save()
-	else:
-		form = CompanyForm(instance=company_obj)
-	return render(request, 'edit.html', {'form':form, 'item': "Company"})
+		form = request.POST
+		form._mutable = True
+		form.update(compid=compid)
+		name = request.POST['companyName']
+		desc = request.POST['companyDescription']
 
+		company_obj = Company.objects.filter(pk=compid)
+		company_obj.update(name=name, description=desc)
 
+	return render(request, 'edit-company.html', {'form':form, 'item': "Company", 'success':1})
+
+# --------------------------------------------------------- #
+#							Game 	 						#
+# --------------------------------------------------------- #
 @login_required
 def add_game(request):
 	active = "gamesAdd"
@@ -103,20 +128,43 @@ def show_game_info(request, gid):
 def edit_game(request, gid):
 	game_obj = Game.objects.get(pk=gid)
 
+	game_details = {}
+	game_details['gid'] = game_obj.gid
+	game_details['title'] = game_obj.title
+	game_details['game_type'] = game_obj.game_type
+	game_details['release_date'] = game_obj.release_date
+	game_details['description'] = game_obj.description
+	game_details['made_by'] = game_obj.made_by
+
+	form = QueryDict('', mutable=True)
+	form.update(game_details)
+
+	return render(request, 'edit-game.html', {'form': form, 'item':"Game"})
+
+@login_required
+def edit_game_action(request, gid):
 	if request.method == "POST":
-		form = GameForm(request.POST, instance=game_obj)
-		if form.is_valid():
-			game = form.save(commit=False)
-			game.save()
-	else:
-		form = GameForm(instance=game_obj)
-	return render(request, 'edit.html', {'form': form, 'item':"Game"})
+		form = request.POST
+		form._mutable = True
+		form.update(gid=gid)
+		title = request.POST['gameTitle']
+		game_type = request.POST['game_type']
+		release_date = request.POST['release_date']
+		description = request.POST['description']
+		made_by = get_company(request.POST['made_by'])
+
+		game_obj = Game.objects.filter(gid=gid)
+		game_obj.update(title=title, game_type=game_type, release_date=release_date, description=description, made_by=made_by)
+	return render(request, 'edit-game.html', {'form': form, 'item':"Game", 'success': 1})
 
 @login_required
 def delete_game(request, gid):
 	game_obj = Game.objects.get(pk=gid).delete()
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+# --------------------------------------------------------- #
+#							Comment 						#
+# --------------------------------------------------------- #
 @login_required
 def add_comment(request, gid):
 	game = Game.objects.get(pk=gid)
