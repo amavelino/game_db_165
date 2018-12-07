@@ -16,6 +16,15 @@ CREATE DATABASE game_db_165 OWNER game_db_admin;
 python manage.py migrate
 
 
-# TODO:
-- requirements.txt for ease of installation in the future
-- add more features ha ha
+# For Heroku deployment:
+see:
+https://devcenter.heroku.com/articles/django-app-configuration
+https://devcenter.heroku.com/articles/getting-started-with-python
+
+- pip install gunicorn
+- pip install django-heroku
+- pip install whitenoise
+- create Procfile
+- create runtime.txt (indicates python version)
+- create requirements.txt (use pip freeze > requirements.txt)
+- edit settings.py (see the bottom of settings.py for edits made + add whitenoise to MIDDLEWARE)
