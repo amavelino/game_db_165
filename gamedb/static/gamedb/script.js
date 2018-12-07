@@ -36,6 +36,20 @@ $(document).ready(function () {
           prompt: 'Enter Creator Company'
         }]
       },
+      companyName: {
+        identifier: 'companyName',
+        rules: [{
+          type: 'empty',
+          prompt: 'Enter Company Name'
+        }]
+      },
+      companyDescription: {
+        identifier: 'companyDescription',
+        rules: [{
+          type: 'empty',
+          prompt: 'Enter Company Description'
+        }]
+      },
     });
 
     $('.close.icon').click(function () {
