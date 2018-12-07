@@ -13,9 +13,9 @@ from .forms import CompanyForm, GameForm, CommentForm
 # --------------------------------------------------------- #
 def signup(request):
 	if request.method == "POST":
-		username = request.POST['username']
-		password = request.POST['password']
-		email = request.POST['email']
+		username = request.POST['signup-username']
+		password = request.POST['signup-password']
+		email = request.POST['signup-email']
 
 		user_obj = User.objects.create_user(username, email, password)
 
