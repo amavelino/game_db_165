@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>
-		Add a new {{ item }}{% if item == "Comment" %} for {{game}} {% endif %}
-	</h2>
-	<form method="POST" class="post-form">{% csrf_token %}
-		{{ form.as_p }}
-		<button type="submit" class="save btn btn-default">Save</button>
-	</form>
+<h2>
+	Add a new {{ item }}{% if item == "Comment" %} for {{game}} {% endif %}
+</h2>
+<div class="ui fluid red-border card">
+	<div class="ui top attached label"><i class="sign in icon"></i>Enter {{item}} Information</div>
+	<div class="content">
+		<p>
+			<form method="POST" class="ui form">{% csrf_token %}
+				{{ form.as_p }}
+				<button type="submit" class="right floated ui button">Save</button>
+			</form>
+		</p>
+	</div>
+</div>
 {% endblock %}

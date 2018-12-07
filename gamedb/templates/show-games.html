@@ -1,28 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>List of Games</h2>
-	<table>
-		<thead>
-			<tr>
-				<th>Release date</th>
-				<th>Title</th>
-				<th>Creator</th>
-				<th>Type</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		
-		<tbody>
-			{% for game in game_list %}
-			<tr>
-				<td>{{ game.release_date }}</td>
-				<td>{{ game.title }}</td>
-				<td>{{ game.made_by }}</td>
-				<td>{{ game.game_type }}</td>
-				<td>{{ game.description }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+<h2>List of Games</h2>
+
+<table class="ui center aligned red fixed table">
+	<thead>
+		<tr>
+			<th class="three wide">Title</th>
+			<th class="two wide">Release date</th>
+			<th>Description</th>
+			<th class="three wide">Creator</th>
+			<th class="two wide">Type</th>
+			<th class="two wide"></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		{% for game in game_list %}
+		<tr>
+			<td class="left aligned">{{ game.title }}</td>
+			<td>{{ game.release_date }}</td>
+			<td class="left aligned">{{ game.description }}</td>
+			<td>{{ game.made_by }}</td>
+			<td>{{ game.game_type }}</td>
+			<td><button data-url="" class="ui compact red icon button">
+					<i class="eye icon"></i>
+				</button>
+				<button data-url="" class="ui compact blue icon button">
+					<i class="edit icon"></i>
+				</button>
+				<button data-url="" class="ui compact icon button">
+					<i class="trash icon"></i>
+				</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
 {% endblock %}
