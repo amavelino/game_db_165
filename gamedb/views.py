@@ -92,6 +92,11 @@ def edit_game(request, gid):
 	return render(request, 'edit.html', {'form': form, 'item':"Game"})
 
 @login_required
+def delete_game(request, gid):
+	game_obj = Game.objects.get(pk=gid).delete()
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
 def add_comment(request, gid):
 	game = Game.objects.get(pk=gid)
 
@@ -122,3 +127,12 @@ def edit_comment(request, gid, commid):
 	else:
 		form = CommentForm(instance=comment_obj)
 	return render(request, 'edit.html', {'form':form, 'item':"Comment", 'game':game.title})
+
+@login_required
+def delete_comment(request, gid, commid):
+	comment_obj = Comment.objects.get(pk=commid)
+
+	if comment_obj.made_by == request.user:
+		comment_obj.delete()
+
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
