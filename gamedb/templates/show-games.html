@@ -1,28 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>List of Games</h2>
-	<table>
-		<thead>
-			<tr>
-				<th>Release date</th>
-				<th>Title</th>
-				<th>Creator</th>
-				<th>Type</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		
-		<tbody>
-			{% for game in game_list %}
-			<tr>
-				<td>{{ game.release_date }}</td>
-				<td>{{ game.title }}</td>
-				<td>{{ game.made_by }}</td>
-				<td>{{ game.game_type }}</td>
-				<td>{{ game.description }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+<h2>List of Games</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Release date</th>
+			<th>Title</th>
+			<th>Creator</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% for game in game_list %}
+		<tr>
+			<td>{{ game.release_date }}</td>
+			<td>{{ game.title }}</td>
+			<td>{{ game.made_by }}</td>
+			<td>{{ game.game_type }}</td>
+			<td>{{ game.description }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 {% endblock %}

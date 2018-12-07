@@ -6,7 +6,6 @@
 	Login
 </h2>
 
-
 <div class="ui fluid red-border card">
 	<div class="ui top attached label"><i class="sign in icon"></i>Enter Account Information</div>
 	<div class="content">
@@ -32,6 +31,12 @@
 	</div>
 </div>
 {% if form.errors %}
-<p>Invalid Username or Password</p>
+<div class="ui negative message">
+		
+		<div class="header">
+				Action Forbidden
+		</div>
+		<p>Invalid Username or Password</p></div>
+
 {% endif %}
 {% endblock %}

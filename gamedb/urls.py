@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
 	path('company/add/', views.add_company, name='add_company'),
+	path('games/add-company-action/', views.add_company_action, name='add_company_action'),
 	path('company/', views.show_company, name='show_company'),
 	#path('company/<int:compid>', views.show_company_info, name='show_company_info'),
 	path('company/<int:compid>/edit/', views.edit_company, name='edit_company'),
