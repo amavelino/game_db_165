@@ -23,13 +23,13 @@
 			<td class="left aligned">{{ game.description }}</td>
 			<td>{{ game.made_by }}</td>
 			<td>{{ game.game_type }}</td>
-			<td><button data-url="" class="ui compact red icon button">
+			<td><button data-url="{% url 'show_game_info' gid=game.gid %}" class="ui compact red icon button">
 					<i class="eye icon"></i>
 				</button>
 				<button data-url="" class="ui compact blue icon button">
 					<i class="edit icon"></i>
 				</button>
-				<button data-url="" class="ui compact icon button">
+				<button data-url="{% url 'delete_game' gid=game.gid %}" class="ui compact icon button">
 					<i class="trash icon"></i>
 				</button></td>
 		</tr>

@@ -52,6 +52,11 @@ $(document).ready(function () {
       },
     });
 
+    $('.ui.icon.button').click(function () {
+      document.location.href = $(this).attr("data-url");
+    });
+
+    
     $('.close.icon').click(function () {
       if ($('.add-attempt').length > 0) {
         $('.add-attempt').fadeOut(600, function () {
