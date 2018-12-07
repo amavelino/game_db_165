@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect, QueryDict
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.utils import timezone
@@ -39,14 +40,32 @@ def edit_company(request, compid):
 @login_required
 def add_game(request):
 	active = "gamesAdd"
+	default_data={'release_date': timezone.now()}
+	querydict_defdata = QueryDict('', mutable=True)
+	querydict_defdata.update(default_data)
+	return render(request, 'add-game.html', {'form': querydict_defdata, 'item':"Game", 'active': active})
+
+def get_company(company):
+	existing_company = Company.objects.filter(name=company)
+	if len(existing_company)==0:
+		new_comp = Company(name=company, description="No Descriptions Added")
+		new_comp.save()
+	return Company.objects.get(name=company)
+
+def add_game_action(request):
+	active = "gamesAdd"
 	if request.method == "POST":
-		form = GameForm(request.POST)
-		if form.is_valid():
-			game = form.save(commit=False)
-			game.save()
-	else:
-		form = GameForm()
-	return render(request, 'add.html', {'form':form, 'item':"Game", 'active': active})
+		form = request.POST
+		title = request.POST['gameTitle']
+		game_type = request.POST['game_type']
+		release_date = request.POST['release_date']
+		description = request.POST['description']
+		made_by = get_company(request.POST['made_by'])
+
+		new_game = Game(title=title, game_type=game_type, release_date=release_date, description=description, made_by=made_by)
+		new_game.save()
+	form = None
+	return render(request, 'add-game.html', {'form':form, 'item':"Game", 'active': active})
 
 def show_games(request):
 	active = "gamesList"

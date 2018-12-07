@@ -1,8 +1,8 @@
 from django.db import models
 
 class Company(models.Model):
-	compid = 			models.AutoField(primary_key=True, unique=True)
-	name = 				models.CharField(max_length=100)
+	# compid = 			models.AutoField(primary_key=True, unique=True)
+	name = 				models.CharField(max_length=100, unique=True, primary_key=True)
 	description = 		models.TextField()
 
 	def __str__(self):
