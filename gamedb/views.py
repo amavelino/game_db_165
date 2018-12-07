@@ -106,6 +106,7 @@ def add_comment(request, gid):
 			comment.date_created = timezone.now()
 			comment.date_last_edited = timezone.now()
 			comment.gid = game
+			comment.made_by = request.user
 			comment.save()
 	else:
 		form = CommentForm()
@@ -121,7 +122,6 @@ def edit_comment(request, gid, commid):
 		if form.is_valid():
 			comment = form.save(commit=False)
 			comment.date_last_edited = timezone.now()
-			comment.gid = game
 			comment.save()
 	else:
 		form = CommentForm(instance=comment_obj)
