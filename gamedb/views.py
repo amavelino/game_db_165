@@ -9,14 +9,18 @@ from .forms import CompanyForm, GameForm, CommentForm
 @login_required
 def add_company(request):
 	active = "gamesCompanyAdd"
+	return render(request, 'add-company.html', {'item': "Company", 'active': active})
+
+def add_company_action(request):
+	active = "gamesCompanyAdd"
 	if request.method == "POST":
-		form = CompanyForm(request.POST)
-		if form.is_valid():
-			company = form.save(commit=False)
-			company.save()
-	else:
-		form = CompanyForm()
-	return render(request, 'add.html', {'form':form, 'item': "Company", 'active': active})
+		form = request.POST
+		name = request.POST['companyName']
+		desc = request.POST['companyDescription']
+		new_company = Company(name=name, description=desc)
+		new_company.save()
+	form = None
+	return render(request, 'add-company.html', {'form':form, 'item': "Company", 'active': active, 'success': 1})
 
 def show_company(request):
 	active = "gamesCompanyList"
@@ -65,7 +69,7 @@ def add_game_action(request):
 		new_game = Game(title=title, game_type=game_type, release_date=release_date, description=description, made_by=made_by)
 		new_game.save()
 	form = None
-	return render(request, 'add-game.html', {'form':form, 'item':"Game", 'active': active})
+	return render(request, 'add-game.html', {'form':form, 'item':"Game", 'active': active, 'success': 1})
 
 def show_games(request):
 	active = "gamesList"

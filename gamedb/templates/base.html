@@ -6,13 +6,8 @@
 	<link rel="stylesheet" href="{% static 'gamedb/semantic.css' %}">
 	<script src="{% static 'gamedb/jquery-3.3.1.min.js' %}"></script>
 	<script src="{% static 'gamedb/semantic.js' %}"></script>
-	<script>
-		$(document).ready(function () {
-			$('.ui.dropdown').dropdown();
-			$('.nav.menu .item').click(function () {
-				document.location.href = $(this).attr("data-url");
-			});
-		});
+	<script src="{% static 'gamedb/script.js' %}">
+		
 	</script>
 </head>
 

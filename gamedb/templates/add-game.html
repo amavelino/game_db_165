@@ -4,8 +4,18 @@
 <h2>
 	Add a new {{ item }}
 </h2>
-<div class="ui fluid red-border card">
-	<div class="ui top attached label"><i class="sign in icon"></i>Enter {{item}} Information</div>
+{% if success == 1 %}
+<div class="ui positive add-attempt message">
+		<i class="close icon"></i>
+		<div class="header">
+			Success!
+		</div>
+		<p>{{item}} Item is successfully added to the inventory!
+		</p>
+	</div>
+{% endif %}
+<div class="ui fluid blue-border card">
+	<div class="ui top attached label"><i class="add icon"></i>Enter {{item}} Information</div>
 	<div class="content">
 		<p>
 			<form method="POST" class="ui form" action="{% url 'add_game_action' %}">{% csrf_token %}
@@ -13,12 +23,10 @@
 					<label>Title</label>
 					<input placeholder="Game Title" type="text" name="gameTitle" value="{{form.title}}">
 				</div>
-
 				<div class="required field">
 					<label>Game Type</label>
 					<input placeholder="Game Type" type="text" name="game_type" value="{{form.game_type}}">
 				</div>
-
 				<div class="required field">
 					<label>Release Date</label>
 					<input placeholder="Release Date" type="date" name="release_date" value="{{form.release_date}}">
@@ -28,10 +36,12 @@
 					<textarea placeholder="Description" type="field" name="description" value="{{form.description}}"></textarea>
 				</div>
 				<div class="required field">
-					<label>Made By</label>
-					<input placeholder="Company Name" type="text" name="made_by" value="{{form.made_by}}">
+					<label>Creator Company</label>
+					<input placeholder="Creator Company Name" type="text" name="made_by" value="{{form.made_by}}">
 				</div>
-				<button type="submit" class="right floated ui green button">Save</button>
+				<div class="ui error message"></div>
+				<button type="submit" class="right floated ui primary button">Save</button>
+				
 			</form>
 		</p>
 	</div>

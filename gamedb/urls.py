@@ -16,4 +16,5 @@ urlpatterns = [
 	path('games/<int:gid>/<int:commid>/edit/', views.edit_comment, name='edit_comment'),
 
 	path('games/add-game-action/', views.add_game_action, name='add_game_action'),
+	path('games/add-company-action/', views.add_company_action, name='add_company_action'),
 ]
