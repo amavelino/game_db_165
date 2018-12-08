@@ -3,7 +3,8 @@
 Django 2.1.3
 PostgreSQL 9.5.14
 
-Database setup:
+### Database setup:
+```
 (In postgres:)
 CREATE USER game_db_admin WITH PASSWORD 'game165dbpass';
 CREATE DATABASE game_db_165 OWNER game_db_admin;
@@ -12,8 +13,9 @@ CREATE DATABASE game_db_165 OWNER game_db_admin;
 python manage.py makemigrations
 python manage.py migrate
 python manage.py migrate --run-syncdb
+```
 
-(Sample Account)
+### Sample Account
  ```
  username: sampleuser
  password: samplepassword123
