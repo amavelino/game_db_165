@@ -29,7 +29,7 @@
 				</div>
 				<div class="required field">
 					<label>Release Date</label>
-					<input placeholder="mm/dd/yyyy" type="date" name="release_date" value="{{form.release_date|date:'Y-m-d'}}">
+					<input placeholder="mm/dd/yyyy" type="date" name="release_date"  value={% if form.release_date|date:'Y-m-d' %} "{{form.release_date|date:'Y-m-d'}}" {% else %} "{{form.release_date}}" {% endif %}>
 				</div>
 				<div class="required field">
 					<label>Description</label>

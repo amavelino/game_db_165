@@ -47,10 +47,14 @@
 	</div>
 	{% for item in comments %}
 	<div class="comment">
+		
 		<div class="content">
+				{% if item.made_by == user %}	
+				<div class="ui red horizontal label" style="float:right"><i class="star icon"></i>Your Comment</div>
+						{% endif %}
 			<a class="author">{{ item.made_by }}</a>
 			<div class="metadata">
-				<div class="date">{{ item.date_created }} | {{ item.date_last_edited }}</div>
+				<div class="date">Date Created: {{ item.date_created }} | Date Edited: {{ item.date_last_edited }}</div>
 			</div>
 			<div class="text">
 				<p>
