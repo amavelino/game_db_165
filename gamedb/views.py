@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 #							Sign up 						#
 # --------------------------------------------------------- #
 def signup(request):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 	if request.method == "POST":
 		username = request.POST['signup-username']
 		password = request.POST['signup-password']
@@ -97,6 +99,7 @@ def get_company(company):
 		new_comp.save()
 	return Company.objects.get(name=company)
 
+@login_required
 def add_game_action(request):
 	active = "gamesAdd"
 	if request.method == "POST":
