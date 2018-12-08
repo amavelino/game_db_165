@@ -6,13 +6,13 @@
 </h2>
 {% if success == 1 %}
 <div class="ui positive add-attempt message">
-		<i class="close icon"></i>
-		<div class="header">
-			Success!
-		</div>
-		<p>{{item}} Item was successfully added to the database!
-		</p>
+	<i class="close icon"></i>
+	<div class="header">
+		Success!
 	</div>
+	<p>{{item}} Item was successfully added to the database!
+	</p>
+</div>
 {% endif %}
 <div class="ui fluid blue-border card">
 	<div class="ui top attached label"><i class="add icon"></i>Enter {{item}} Information</div>
@@ -41,7 +41,7 @@
 				</div>
 				<div class="ui error message"></div>
 				<button type="submit" class="right floated ui primary button">Save</button>
-				
+
 			</form>
 		</p>
 	</div>

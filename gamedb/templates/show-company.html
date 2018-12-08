@@ -1,33 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>List of Companies</h2>
-	<table class="ui center aligned red fixed table">
-			<thead>
-				<tr>
-						<th>Company Name</th>
-						<th>Description</th>
-						<th></th>
-				</tr>
-			</thead>
-			<tbody>
-					{% for company in comp_list %}
-				<tr>
-					<td class="left aligned">{{ company.name }}</td>
-					<td>{{ company.description }}</td>
-					<td><button data-url="" class="ui compact red icon button">
-							<i class="eye icon"></i>
-						</button>
-						<button data-url="" class="ui compact blue icon button">
-							<i class="edit icon"></i>
-						</button>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+<h2>List of Companies</h2>
+<table class="ui center aligned red fixed table">
+	<thead>
+		<tr>
+			<th>Company Name</th>
+			<th>Description</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for company in comp_list %}
+		<tr>
+			<td class="left aligned">{{ company.name }}</td>
+			<td>{{ company.description }}</td>
+			<td><button data-url="" class="ui compact red icon button">
+					<i class="eye icon"></i>
+				</button>
+				<button data-url="" class="ui compact blue icon button">
+					<i class="edit icon"></i>
+				</button>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 {% endblock %}
-
-
-<tr>
-	
-</tr>

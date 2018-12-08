@@ -73,6 +73,8 @@ $(document).ready(function () {
       },
     });
 
+  $('.ui.rating')
+    .rating();
   $('.ui.icon.button').click(function () {
     document.location.href = $(this).attr("data-url");
   });

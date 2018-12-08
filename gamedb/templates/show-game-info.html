@@ -1,31 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	Game: {{ game.title }}
+<h2>
+	{{ game.title }}
+</h2>
+<p>
 	Created by {{ game.made_by }}
+</p>
+<p>
 	Description:
 	{{ game.description }}
+</p>
+<h5 class="ui horizontal divider header" style="margin-top:50px">Comments </h5>
 
-	Comments:
-	<table>
-		<thead>
-			<tr>
-				<th>Rating</th>
-				<th>Content</th>
-				<th>Date Created</th>
-				<th>Date Modified</th>
-			</tr>
-		</thead>
-		
-		<tbody>
-			{% for item in comments %}
-			<tr>
-				<td>{{ item.rating }}</td>
-				<td>{{ item.content }}</td>
-				<td>{{ item.date_created }}</td>
-				<td>{{ item.date_last_edited }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+<div class="ui comments">
+	{% for item in comments %}
+	<div class="comment">
+
+		<div class="content">
+			<a class="author">User</a>
+			<div class="metadata">
+				<div class="date">{{ item.date_created }} | {{ item.date_last_edited }}</div>
+			</div>
+			<div class="text">
+				<p>{{ item.rating }}</p>
+				<p>{{ item.content }}</p>
+			</div>
+			<div class="actions">
+				<a class="reply">Reply</a>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+	<form class="ui reply form">
+		<div class="field">
+			<textarea></textarea>
+		</div>
+		<div class="field">
+			Rating: <div class="ui star rating" data-rating="3"></div>
+		</div>
+		<div class="ui primary submit labeled icon button">
+			<i class="icon edit"></i> Add Comment
+		</div>
+	</form>
+</div>
 {% endblock %}
