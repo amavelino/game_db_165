@@ -13,6 +13,12 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py migrate --run-syncdb
 
+(Sample Account)
+ ```
+ username: sampleuser
+ password: samplepassword123
+ ```
+ 
 # Current features:
 - Sign up
 - Log in and log out
