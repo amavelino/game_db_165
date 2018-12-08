@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Company(models.Model):
-	# compid = 			models.AutoField(primary_key=True, unique=True)
-	name = 				models.CharField(max_length=100, unique=True, primary_key=True)
+	compid = 			models.AutoField(primary_key=True, unique=True)
+	name = 				models.CharField(max_length=100)
 	description = 		models.TextField()
 
 	def __str__(self):

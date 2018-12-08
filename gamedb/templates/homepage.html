@@ -1,11 +1,25 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-    <h2>Homepage</h2>
-    <p>Welcome to Game DB!</p>
-    
+
+<img src="{% static 'gamedb/home.png' %}" width="100%">
+<p>
+    <h1 class="ui horizontal divider header" style="color:#DB2828">
+        The Guild
+    </h1>
+</p>
+<p style="text-align: justify">
+    Welcome to The Guild! A home for people with mutual interests: interests of exploration, and excitement - of adventure, and of wonder! Here, everyone revels in the dissemination of knowledge. What lies beyond the horizon? What new sights are there to see? Sign up now, and be part of The Guild's community!
+</p>
+<p style="padding-top:20px; text-align:center">
+    <a href="{% url 'show_games' %}" class="ui red button">List of Games</a>
+    <a href="{% url 'show_company' %}" class="ui button">List of Companies</a>
+    <br><br>
+    {% if user.is_authenticated is False %}       
+    Wanna Contribute Entries? <a href="{% url 'signup' %}">Sign Up</a> or <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+        
+</p>
 
 
-    
-    
 {% endblock %}

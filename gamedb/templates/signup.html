@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <h2>
 	Sign Up
 </h2>
@@ -14,21 +13,25 @@
 				<div class="field">
 					<label>Username</label>
 					<div class="ui left icon input">
-						<i class="user icon"></i><input name="username" placeholder="Username" type="text" />
+						<i class="user icon"></i><input name="signup-username" placeholder="Username" type="text" />
 					</div>
 				</div>
 				<div class="field">
 					<label>E-mail</label>
 					<div class="ui left icon input">
-						<i class="user icon"></i><input name="email" placeholder="E-mail" type="text" />
+						<i class="envelope icon"></i><input name="signup-email" placeholder="E-mail" type="text" />
 					</div>
 				</div>
 				<div class="field">
 					<label>Password</label>
 					<div class="ui left icon input">
-						<i class="lock icon"></i><input name="password" placeholder="Password" type="password" />
+						<i class="lock icon"></i><input name="signup-password" placeholder="Password" type="password" />
 					</div>
 				</div>
+				<p>
+					Already Have an Account? Log In <a href="{% url 'login' %}">Here</a>
+				</p>
+				<div class="ui error message"></div>
 
 				<button class="right floated ui green button" type="submit">Sign Up</button>
 				<a class="right floated ui button" href="/">Cancel</a>
@@ -36,13 +39,5 @@
 		</p>
 	</div>
 </div>
-{% if form.errors %}
-<div class="ui negative message">
-		
-		<div class="header">
-				Action Forbidden
-		</div>
-		<p>Invalid Username or Password</p></div>
 
-{% endif %}
 {% endblock %}

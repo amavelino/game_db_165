@@ -2,30 +2,30 @@
 
 {% block content %}
 <h2>
-	Add a new {{ item }}
+	Edit {{ item }} Details: {{form.name}}
 </h2>
 {% if success == 1 %}
 <div class="ui positive add-attempt message">
-	<i class="close icon"></i>
-	<div class="header">
-		Success!
+		<i class="close icon"></i>
+		<div class="header">
+			Success!
+		</div>
+		<p>{{item}} details were successfully updated!
+		</p>
 	</div>
-	<p>{{item}} was successfully added to the database!
-	</p>
-</div>
 {% endif %}
 <div class="ui fluid blue-border card">
 	<div class="ui top attached label"><i class="add icon"></i>Enter {{item}} Information</div>
 	<div class="content">
 		<p>
-			<form method="POST" class="ui form" action="{% url 'add_company_action' %}">{% csrf_token %}
+			<form method="POST" class="ui form" action="{% url 'edit_company_action' compid=form.compid %}">{% csrf_token %}
 				<div class="required field">
 					<label>Company Name</label>
 					<input placeholder="Company Name" type="text" name="companyName" value="{{form.name}}">
 				</div>
 				<div class="required field">
 					<label>Description</label>
-					<textarea placeholder="Description" type="field" name="companyDescription" value="{{form.description}}"></textarea>
+					<textarea placeholder="Description" type="field" name="companyDescription" value="{{form.description}}">{{form.description}}</textarea>
 				</div>
 				<div class="ui error message"></div>
 				<button type="submit" class="right floated ui primary button">Save</button>

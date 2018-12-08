@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Game DB</title>
+	<title>The Guild</title>
 	<link rel="stylesheet" href="{% static 'gamedb/semantic.css' %}">
 	<script src="{% static 'gamedb/jquery-3.3.1.min.js' %}"></script>
 	<script src="{% static 'gamedb/semantic.js' %}"></script>
@@ -14,7 +14,7 @@
 <body style="height:95%">
 	<div class="ui top fixed inverted menu" style="border-bottom: #DB2828 3px solid">
 		<div class="item">
-			<h1><a href="/" style="color:#DB2828">Game DB</a></h1>
+			<h1><a href="/" style="color:#DB2828">The Guild</a></h1>
 		</div>
 		<a class="red {% ifequal active 'gamesList'%} active {% endifequal %} item" href="{% url 'show_games' %}">List of
 			Games</a>

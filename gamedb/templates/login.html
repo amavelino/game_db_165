@@ -24,21 +24,23 @@
 					</div>
 				</div>
 				<p>
-					New in Game DB? Sign Up <a href="">Here</a>
+					New User? Sign Up <a href="{% url 'signup' %}">Here</a>
 				</p>
+				{% if form.errors %}
+				<div class="ui negative message">
+
+					<div class="header">
+						Action Forbidden
+					</div>
+					<p>Invalid Username or Password</p>
+				</div>
+
+				{% endif %}
 				<button class="right floated ui green button" type="submit">Login</button>
 				<a class="right floated ui button" href="/">Cancel</a>
 			</form>
 		</p>
 	</div>
 </div>
-{% if form.errors %}
-<div class="ui negative message">
-		
-		<div class="header">
-				Action Forbidden
-		</div>
-		<p>Invalid Username or Password</p></div>
 
-{% endif %}
 {% endblock %}

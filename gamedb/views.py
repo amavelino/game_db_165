@@ -6,13 +6,17 @@ import datetime
 from django.utils import timezone
 from .models import Game, Comment, Company
 from django.contrib.auth.models import User
-from .forms import CompanyForm, GameForm, CommentForm
 
+# --------------------------------------------------------- #
+#							Sign up 						#
+# --------------------------------------------------------- #
 def signup(request):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 	if request.method == "POST":
-		username = request.POST['username']
-		password = request.POST['password']
-		email = request.POST['email']
+		username = request.POST['signup-username']
+		password = request.POST['signup-password']
+		email = request.POST['signup-email']
 
 		user_obj = User.objects.create_user(username, email, password)
 
@@ -23,11 +27,16 @@ def signup(request):
 
 	return render(request, 'signup.html', {'form':form})
 
+
+# --------------------------------------------------------- #
+#							Company 						#
+# --------------------------------------------------------- #
 @login_required
 def add_company(request):
 	active = "gamesCompanyAdd"
 	return render(request, 'add-company.html', {'item': "Company", 'active': active})
 
+@login_required
 def add_company_action(request):
 	active = "gamesCompanyAdd"
 	if request.method == "POST":
@@ -47,17 +56,34 @@ def show_company(request):
 @login_required
 def edit_company(request, compid):
 	company_obj = Company.objects.get(pk=compid)
+	
+	company_details = {}
+	company_details['compid'] = company_obj.compid
+	company_details['name'] = company_obj.name
+	company_details['description'] = company_obj.description
 
+	form = QueryDict('', mutable=True)
+	form.update(company_details)
+
+	return render(request, 'edit-company.html', {'form':form, 'item': "Company"})
+
+@login_required
+def edit_company_action(request, compid):
 	if request.method == "POST":
-		form = CompanyForm(request.POST, instance=company_obj)
-		if form.is_valid():
-			company = form.save(commit=False)
-			company.save()
-	else:
-		form = CompanyForm(instance=company_obj)
-	return render(request, 'edit.html', {'form':form, 'item': "Company"})
+		form = request.POST
+		form._mutable = True
+		name = request.POST['companyName']
+		desc = request.POST['companyDescription']
 
+		company_obj = Company.objects.filter(pk=compid)
+		company_obj.update(name=name, description=desc)
+		form.update(compid=compid, name=name, description=desc)
 
+	return render(request, 'edit-company.html', {'form':form, 'item': "Company", 'success':1})
+
+# --------------------------------------------------------- #
+#							Game 	 						#
+# --------------------------------------------------------- #
 @login_required
 def add_game(request):
 	active = "gamesAdd"
@@ -73,6 +99,7 @@ def get_company(company):
 		new_comp.save()
 	return Company.objects.get(name=company)
 
+@login_required
 def add_game_action(request):
 	active = "gamesAdd"
 	if request.method == "POST":
@@ -91,63 +118,93 @@ def add_game_action(request):
 def show_games(request):
 	active = "gamesList"
 	items = Game.objects.all()
+	items = items.order_by('title')
+
 	return render(request, 'show-games.html', {'game_list':items, 'active': active})
 
 def show_game_info(request, gid):
 	game = Game.objects.get(pk=gid)
 	comments = Comment.objects.filter(gid=gid)
 
-	return render(request, 'show-game-info.html', {'game':game, 'comments':comments})
+	form = None
+	if request.user.is_authenticated:
+		user_comment = Comment.objects.filter(gid=gid, made_by=request.user)
+
+		comment_details = {}
+		if user_comment:
+			comment_details['comment'] = user_comment[0].content
+			comment_details['rating'] = user_comment[0].rating
+			comment_details['commid'] = user_comment[0].commid
+			comment_details['exists'] = 1
+		else:
+			comment_details['rating'] = 3
+		form = QueryDict('', mutable=True)
+		form.update(comment_details)
+
+	return render(request, 'show-game-info.html', {'game':game, 'comments':comments, 'form': form})
 
 @login_required
 def edit_game(request, gid):
 	game_obj = Game.objects.get(pk=gid)
 
+	game_details = {}
+	game_details['gid'] = game_obj.gid
+	game_details['title'] = game_obj.title
+	game_details['game_type'] = game_obj.game_type
+	game_details['release_date'] = game_obj.release_date
+	game_details['description'] = game_obj.description
+	game_details['made_by'] = game_obj.made_by
+
+	form = QueryDict('', mutable=True)
+	form.update(game_details)
+
+	return render(request, 'edit-game.html', {'form': form, 'item':"Game"})
+
+@login_required
+def edit_game_action(request, gid):
 	if request.method == "POST":
-		form = GameForm(request.POST, instance=game_obj)
-		if form.is_valid():
-			game = form.save(commit=False)
-			game.save()
-	else:
-		form = GameForm(instance=game_obj)
-	return render(request, 'edit.html', {'form': form, 'item':"Game"})
+		form = request.POST
+		form._mutable = True
+		form.update(gid=gid)
+		title = request.POST['title']
+		game_type = request.POST['game_type']
+		release_date = request.POST['release_date']
+		description = request.POST['description']
+		made_by = get_company(request.POST['made_by'])
+
+		game_obj = Game.objects.filter(gid=gid)
+		game_obj.update(title=title, game_type=game_type, release_date=release_date, description=description, made_by=made_by)
+	return render(request, 'edit-game.html', {'form': form, 'item':"Game", 'success': 1})
 
 @login_required
 def delete_game(request, gid):
 	game_obj = Game.objects.get(pk=gid).delete()
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+# --------------------------------------------------------- #
+#							Comment 						#
+# --------------------------------------------------------- #
 @login_required
-def add_comment(request, gid):
+def save_comment(request, gid):
 	game = Game.objects.get(pk=gid)
 
 	if request.method == "POST":
-		form = CommentForm(request.POST)
-		if form.is_valid():
-			comment = form.save(commit=False)
-			comment.date_created = timezone.now()
-			comment.date_last_edited = timezone.now()
-			comment.gid = game
-			comment.made_by = request.user
-			comment.save()
-	else:
-		form = CommentForm()
-	return render(request, 'add.html', {'form':form, 'item':"Comment", 'game':game.title})
+		form = request.POST
+		content = request.POST['comment']
+		rating = request.POST['rating']
+		gid = game
+		date_created = timezone.now()
+		date_last_edited = timezone.now()
+		made_by = request.user
 
-@login_required
-def edit_comment(request, gid, commid):
-	game = Game.objects.get(pk=gid)
-	comment_obj = Comment.objects.get(pk=commid)
+		user_comment = Comment.objects.filter(made_by=made_by, gid=game)
 
-	if request.method == "POST":
-		form = CommentForm(request.POST, instance=comment_obj)
-		if form.is_valid():
-			comment = form.save(commit=False)
-			comment.date_last_edited = timezone.now()
-			comment.save()
-	else:
-		form = CommentForm(instance=comment_obj)
-	return render(request, 'edit.html', {'form':form, 'item':"Comment", 'game':game.title})
+		if user_comment:
+			user_comment.update(content=content,rating=rating, date_last_edited=date_last_edited)
+		else:
+			new_comment = Comment(gid=gid, content=content, rating=rating, date_created=date_created, date_last_edited=date_last_edited, made_by=made_by)
+			new_comment.save()
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def delete_comment(request, gid, commid):
@@ -156,4 +213,4 @@ def delete_comment(request, gid, commid):
 	if comment_obj.made_by == request.user:
 		comment_obj.delete()
 
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

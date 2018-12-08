@@ -1,22 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>List of Companies</h2>
-	<table>
-		<thead>
-			<tr>
-				<th>Company Name</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		
-		<tbody>
-			{% for company in comp_list %}
-			<tr>
-				<td>{{ company.name }}</td>
-				<td>{{ company.description }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+<h2>List of Companies</h2>
+<table class="ui center aligned celled red fixed table">
+	<thead>
+		<tr>
+			<th>Company Name</th>
+			<th>Description</th>
+			{% if user.is_authenticated is True %}     
+			<th>Actions</th>
+			{% endif %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for company in comp_list %}
+		<tr>
+			<td class="left aligned">{{ company.name }}</td>
+			<td>{{ company.description }}</td>
+			{% if user.is_authenticated is True %}     
+			<td>
+				<button data-url="{% url 'edit_company' compid=company.compid %}" class="ui blue icon button">
+					<i class="edit icon"></i> Edit
+				</button>
+			</td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 {% endblock %}

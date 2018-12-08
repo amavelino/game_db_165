@@ -1,31 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	Game: {{ game.title }}
-	Created by {{ game.made_by }}
-	Description:
+<h2>
+	{{ game.title }}
+</h2>
+<p>
+	Created by <span style="font-weight: bold; color:#DB2828">{{ game.made_by }}</span> and Released on
+	<span style="font-weight: bold; color:#DB2828">{{game.release_date }}</span>
+</p>
+<p>
 	{{ game.description }}
+</p>
+<h5 class="ui horizontal divider header" style="margin-top:50px">Comments </h5>
 
-	Comments:
-	<table>
-		<thead>
-			<tr>
-				<th>Rating</th>
-				<th>Content</th>
-				<th>Date Created</th>
-				<th>Date Modified</th>
-			</tr>
-		</thead>
+<div class="ui comments">
+	<div class="ui fluid blue-border card">
+		<div class="content">
+			{% if user.is_authenticated %}
+			<p><form method="POST" class="ui reply form" action="{% url 'add_comment' gid=game.gid %}">
+				{% csrf_token %}
+				<div class="field">
+					<label>Rating:
+					</label>
+					<div class="ui star to-comment rating" data-rating={{form.rating}}></div>
+					<input class="to-rate" name="rating" value="3" style="display:none"></input>
+				</div>
+				<div class="field">
+						<label>Comment:</label>
+					<textarea placeholder="Insert Comment Here" type="field" name="comment" value="{{form.comment}}">{{form.comment}}</textarea>
+				</div>
+				{% if form.exists %}
+					<button type="submit" class="ui primary submit labeled icon compact button">
+						<i class="icon comment outline"></i> Save Comment
+					</button>
+					<a href="{% url 'delete_comment' commid=form.commid gid=game.gid %}">Delete Comment</a>
+				{% else %}
+					<button type="submit" class="ui primary submit labeled icon compact button">
+						<i class="icon comment outline"></i> Add Comment
+					</button>
+				{% endif %}
+			</form>	</p>
+			{% else %}
+			<div class="text"><p>Only logged in users can comment.</p></div>
+			{% endif %}
+		</div>
+	</div>
+	{% for item in comments %}
+	<div class="comment">
 		
-		<tbody>
-			{% for item in comments %}
-			<tr>
-				<td>{{ item.rating }}</td>
-				<td>{{ item.content }}</td>
-				<td>{{ item.date_created }}</td>
-				<td>{{ item.date_last_edited }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+		<div class="content">
+				{% if item.made_by == user %}	
+				<div class="ui red horizontal label" style="float:right"><i class="star icon"></i>Your Comment</div>
+						{% endif %}
+			<a class="author">{{ item.made_by }}</a>
+			<div class="metadata">
+				<div class="date">Date Created: {{ item.date_created }} | Date Edited: {{ item.date_last_edited }}</div>
+			</div>
+			<div class="text">
+				<p>
+					<div class="ui star to-display rating" data-rating="{{ item.rating }}"></div>
+				</p>
+				<p>{{ item.content }}</p>
+			</div>
+		</div>
+	</div>
+	<div class="ui divider"></div>
+	{% endfor %}
+</div>
 {% endblock %}
