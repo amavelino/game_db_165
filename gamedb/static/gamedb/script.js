@@ -73,8 +73,11 @@ $(document).ready(function () {
       },
     });
 
-  $('.ui.rating')
-    .rating();
+  $('.ui.rating').rating({
+    initialRating: 3,
+    maxRating: 5
+    
+  })
   $('.ui.icon.button').click(function () {
     document.location.href = $(this).attr("data-url");
   });

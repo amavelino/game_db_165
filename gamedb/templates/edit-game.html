@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>
-	Add a new {{ item }}
+	Edit {{ item }}: {{ form.title}}
 </h2>
 {% if success == 1 %}
 <div class="ui positive add-attempt message">
@@ -29,11 +29,11 @@
 				</div>
 				<div class="required field">
 					<label>Release Date</label>
-					<input placeholder="Release Date" type="date" name="release_date" value="{{form.release_date}}">
+					<input placeholder="mm/dd/yyyy" type="date" name="release_date" value="{{form.release_date|date:'Y-m-d'}}">
 				</div>
 				<div class="required field">
 					<label>Description</label>
-					<textarea placeholder="Description" type="field" name="description" value="{{form.description}}"></textarea>
+					<textarea placeholder="Description" type="field" name="description">{{form.description}}</textarea>
 				</div>
 				<div class="required field">
 					<label>Creator Company</label>

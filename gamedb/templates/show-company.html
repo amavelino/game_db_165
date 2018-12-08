@@ -2,12 +2,14 @@
 
 {% block content %}
 <h2>List of Companies</h2>
-<table class="ui center aligned red fixed table">
+<table class="ui center aligned celled red fixed table">
 	<thead>
 		<tr>
 			<th>Company Name</th>
 			<th>Description</th>
-			<th></th>
+			{% if user.is_authenticated is True %}     
+			<th>Actions</th>
+			{% endif %}
 		</tr>
 	</thead>
 	<tbody>
@@ -15,12 +17,13 @@
 		<tr>
 			<td class="left aligned">{{ company.name }}</td>
 			<td>{{ company.description }}</td>
-			<td><button data-url="" class="ui compact red icon button">
-					<i class="eye icon"></i>
+			{% if user.is_authenticated is True %}     
+			<td>
+				<button data-url="" class="ui blue icon button">
+					<i class="edit icon"></i> Edit
 				</button>
-				<button data-url="" class="ui compact blue icon button">
-					<i class="edit icon"></i>
-				</button>
+			</td>
+			{% endif %}
 		</tr>
 		{% endfor %}
 	</tbody>

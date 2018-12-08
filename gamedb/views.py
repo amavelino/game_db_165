@@ -116,6 +116,7 @@ def add_game_action(request):
 def show_games(request):
 	active = "gamesList"
 	items = Game.objects.all()
+	items = items.order_by('title')
 	return render(request, 'show-games.html', {'game_list':items, 'active': active})
 
 def show_game_info(request, gid):
