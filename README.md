@@ -3,19 +3,20 @@
 Django 2.1.3
 PostgreSQL 9.5.14
 
-Setup:
-pip install django
-pip install psycopg2
-
 Database setup:
+(In postgres:)
 CREATE USER game_db_admin WITH PASSWORD 'game165dbpass';
 CREATE DATABASE game_db_165 OWNER game_db_admin;
 
-...
-
+(Outside of postgres:)
+python manage.py makemigrations
 python manage.py migrate
+python manage.py migrate --run-syncdb
 
-
-# TODO:
-- requirements.txt for ease of installation in the future
-- add more features ha ha
+# Current features:
+- Sign up
+- Log in and log out
+- Create, read, update, and delete game entries
+- Create, read, update, and delete comments (CUD functionality is only available for comments you made)
+- Create, read, and update company entries
+Maybe more to come?
