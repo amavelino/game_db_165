@@ -27,4 +27,3 @@ python manage.py migrate --run-syncdb
 - Create, read, update, and delete game entries
 - Create, read, update, and delete comments (CUD functionality is only available for comments you made)
 - Create, read, and update company entries
-Maybe more to come?
