@@ -15,7 +15,7 @@
 	</div>
 {% endif %}
 <div class="ui fluid blue-border card">
-	<div class="ui top attached label"><i class="add icon"></i>Enter {{item}} Information</div>
+	<div class="ui top attached label"><i class="edit icon"></i>Enter {{item}} Information</div>
 	<div class="content">
 		<p>
 			<form method="POST" class="ui form" action="{% url 'edit_company_action' compid=form.compid %}">{% csrf_token %}
