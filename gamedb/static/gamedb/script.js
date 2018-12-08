@@ -73,11 +73,22 @@ $(document).ready(function () {
       },
     });
 
-  $('.ui.rating').rating({
+  $('.ui.to-comment.rating').rating({
     initialRating: 3,
-    maxRating: 5
-    
+    maxRating: 5,
+    clearable: true,
+    onRate: function(value) {
+      $('.ui.to-comment.rating').attr('data-rating',value);
+      $('.to-rate').attr('value',value);
+    },
   })
+
+  $('.ui.to-display.rating').rating({
+    maxRating: 5,
+  })
+
+  $('.ui.to-display.rating') .rating('disable');
+
   $('.ui.icon.button').click(function () {
     document.location.href = $(this).attr("data-url");
   });

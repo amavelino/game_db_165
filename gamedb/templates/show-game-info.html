@@ -5,7 +5,7 @@
 	{{ game.title }}
 </h2>
 <p>
-	Created by <span style="font-weight: bold; color:#DB2828">{{ game.made_by }}</span> and Released on 
+	Created by <span style="font-weight: bold; color:#DB2828">{{ game.made_by }}</span> and Released on
 	<span style="font-weight: bold; color:#DB2828">{{game.release_date }}</span>
 </p>
 <p>
@@ -16,32 +16,45 @@
 <div class="ui comments">
 	{% for item in comments %}
 	<div class="comment">
-
 		<div class="content">
-			<a class="author">User</a>
+			<a class="author">{{ item.made_by }}</a>
 			<div class="metadata">
 				<div class="date">{{ item.date_created }} | {{ item.date_last_edited }}</div>
 			</div>
 			<div class="text">
-				<p>{{ item.rating }}</p>
+				<p>
+					<div class="ui star to-display rating" data-rating="{{ item.rating }}"></div>
+				</p>
 				<p>{{ item.content }}</p>
 			</div>
 			<div class="actions">
-				<a class="reply">Reply</a>
+				<a href="{% url 'delete_comment' commid=item.commid gid=game.gid %}">Delete</a>
+				<a href="">Edit</a>
 			</div>
 		</div>
 	</div>
+	<div class="ui divider"></div>
 	{% endfor %}
-	<form class="ui reply form">
+	<div class="ui fluid blue-border card">
+			<div class="content">
+				<p><form method="POST" class="ui reply form" action="{% url 'add_comment' gid=game.gid %}">
+		{% csrf_token %}
 		<div class="field">
-			<textarea></textarea>
+				<label>Comment:
+					</label>
+			<textarea placeholder="Insert Comment Here" type="field" name="comment" value="{{form.comment}}"></textarea>
 		</div>
 		<div class="field">
-			Rating: <div class="ui star rating" data-rating="3"></div>
+			<label>Rating:
+			</label>
+			<div class="ui star to-comment rating" data-rating="3"></div>
+			<input class="to-rate" name="rating" value="3" style="display:none"></input>
 		</div>
-		<div class="ui primary submit labeled icon button">
-			<i class="icon edit"></i> Add Comment
-		</div>
-	</form>
+		<button type="submit" class="ui primary submit labeled icon compact button">
+			<i class="icon comment outline"></i> Add Comment
+		</button>
+	</form>	</p>
+</div>
+</div>
 </div>
 {% endblock %}

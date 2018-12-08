@@ -171,17 +171,18 @@ def add_comment(request, gid):
 	game = Game.objects.get(pk=gid)
 
 	if request.method == "POST":
-		form = CommentForm(request.POST)
-		if form.is_valid():
-			comment = form.save(commit=False)
-			comment.date_created = timezone.now()
-			comment.date_last_edited = timezone.now()
-			comment.gid = game
-			comment.made_by = request.user
-			comment.save()
-	else:
-		form = CommentForm()
-	return render(request, 'add.html', {'form':form, 'item':"Comment", 'game':game.title})
+		form = request.POST
+		content = request.POST['comment']
+		rating = request.POST['rating']
+		date_created = timezone.now()
+		date_last_edited = timezone.now()
+		gid = game
+		made_by = request.user
+		new_comment = Comment(gid=gid, content=content, rating=rating, date_created=date_created, date_last_edited=date_last_edited, made_by=made_by)
+		new_comment.save()
+	form = None
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 @login_required
 def edit_comment(request, gid, commid):
@@ -205,4 +206,4 @@ def delete_comment(request, gid, commid):
 	if comment_obj.made_by == request.user:
 		comment_obj.delete()
 
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

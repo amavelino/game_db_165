@@ -27,7 +27,7 @@
 				<button data-url="{% url 'show_game_info' gid=game.gid %}" class="ui compact red icon button">
 					<i class="eye icon"></i>
 				</button>
-				{% if user.is_authenticated is True %}  
+				{% if user.is_authenticated is True %}
 				<button data-url="{% url 'edit_game' gid=game.gid %}" class="ui compact blue icon button">
 					<i class="edit icon"></i>
 				</button>
