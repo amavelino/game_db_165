@@ -19,7 +19,7 @@
 			<td>{{ company.description }}</td>
 			{% if user.is_authenticated is True %}     
 			<td>
-				<button data-url="" class="ui blue icon button">
+				<button data-url="{% url 'edit_company' compid=company.compid %}" class="ui blue icon button">
 					<i class="edit icon"></i> Edit
 				</button>
 			</td>

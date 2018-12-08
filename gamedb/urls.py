@@ -17,7 +17,6 @@ urlpatterns = [
 	path('games/<int:gid>/edit/', views.edit_game, name='edit_game'),
 	path('games/<int:gid>/edit-action/', views.edit_game_action, name='edit_game_action'),
 	path('games/<int:gid>/delete/', views.delete_game, name='delete_game'),
-	path('games/<int:gid>/add-comment/', views.add_comment, name='add_comment'),
-	path('games/<int:gid>/<int:commid>/edit/', views.edit_comment, name='edit_comment'),
+	path('games/<int:gid>/add-comment/', views.save_comment, name='add_comment'),
 	path('games/<int:gid>/<int:commid>/delete/', views.delete_comment, name='delete_comment'),
 ]

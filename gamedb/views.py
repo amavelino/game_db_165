@@ -6,7 +6,6 @@ import datetime
 from django.utils import timezone
 from .models import Game, Comment, Company
 from django.contrib.auth.models import User
-from .forms import CompanyForm, GameForm, CommentForm
 
 # --------------------------------------------------------- #
 #							Sign up 						#
@@ -59,7 +58,7 @@ def edit_company(request, compid):
 	company_details = {}
 	company_details['compid'] = company_obj.compid
 	company_details['name'] = company_obj.name
-	company_details['desc'] = company_obj.description
+	company_details['description'] = company_obj.description
 
 	form = QueryDict('', mutable=True)
 	form.update(company_details)
@@ -71,12 +70,12 @@ def edit_company_action(request, compid):
 	if request.method == "POST":
 		form = request.POST
 		form._mutable = True
-		form.update(compid=compid)
 		name = request.POST['companyName']
 		desc = request.POST['companyDescription']
 
 		company_obj = Company.objects.filter(pk=compid)
 		company_obj.update(name=name, description=desc)
+		form.update(compid=compid, name=name, description=desc)
 
 	return render(request, 'edit-company.html', {'form':form, 'item': "Company", 'success':1})
 
@@ -117,13 +116,27 @@ def show_games(request):
 	active = "gamesList"
 	items = Game.objects.all()
 	items = items.order_by('title')
+
 	return render(request, 'show-games.html', {'game_list':items, 'active': active})
 
 def show_game_info(request, gid):
 	game = Game.objects.get(pk=gid)
 	comments = Comment.objects.filter(gid=gid)
 
-	return render(request, 'show-game-info.html', {'game':game, 'comments':comments})
+	user_comment = Comment.objects.filter(gid=gid, made_by=request.user)
+
+	comment_details = {}
+	if user_comment:
+		comment_details['comment'] = user_comment[0].content
+		comment_details['rating'] = user_comment[0].rating
+		comment_details['commid'] = user_comment[0].commid
+		comment_details['exists'] = 1
+	else:
+		comment_details['rating'] = 3
+	form = QueryDict('', mutable=True)
+	form.update(comment_details)
+
+	return render(request, 'show-game-info.html', {'game':game, 'comments':comments, 'form': form})
 
 @login_required
 def edit_game(request, gid):
@@ -167,37 +180,26 @@ def delete_game(request, gid):
 #							Comment 						#
 # --------------------------------------------------------- #
 @login_required
-def add_comment(request, gid):
+def save_comment(request, gid):
 	game = Game.objects.get(pk=gid)
 
 	if request.method == "POST":
 		form = request.POST
 		content = request.POST['comment']
 		rating = request.POST['rating']
+		gid = game
 		date_created = timezone.now()
 		date_last_edited = timezone.now()
-		gid = game
 		made_by = request.user
-		new_comment = Comment(gid=gid, content=content, rating=rating, date_created=date_created, date_last_edited=date_last_edited, made_by=made_by)
-		new_comment.save()
-	form = None
+
+		user_comment = Comment.objects.filter(made_by=made_by, gid=game)
+
+		if user_comment:
+			user_comment.update(content=content,rating=rating, date_last_edited=date_last_edited)
+		else:
+			new_comment = Comment(gid=gid, content=content, rating=rating, date_created=date_created, date_last_edited=date_last_edited, made_by=made_by)
+			new_comment.save()
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-@login_required
-def edit_comment(request, gid, commid):
-	game = Game.objects.get(pk=gid)
-	comment_obj = Comment.objects.get(pk=commid)
-
-	if request.method == "POST":
-		form = CommentForm(request.POST, instance=comment_obj)
-		if form.is_valid():
-			comment = form.save(commit=False)
-			comment.date_last_edited = timezone.now()
-			comment.save()
-	else:
-		form = CommentForm(instance=comment_obj)
-	return render(request, 'edit.html', {'form':form, 'item':"Comment", 'game':game.title})
 
 @login_required
 def delete_comment(request, gid, commid):
