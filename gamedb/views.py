@@ -42,7 +42,7 @@ def add_company_action(request):
 	if request.method == "POST":
 		form = request.POST
 		name = request.POST['companyName']
-		desc = request.POST['companyDesedcription']
+		desc = request.POST['companyDescription']
 		new_company = Company(name=name, description=desc)
 		new_company.save()
 	form = None
