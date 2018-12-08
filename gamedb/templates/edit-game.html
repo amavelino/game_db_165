@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>
-	Edit {{ item }}: {{ form.title}}
+	Edit {{ item }} Details: {{ form.title}}
 </h2>
 {% if success == 1 %}
 <div class="ui positive add-attempt message">
@@ -21,7 +21,7 @@
 			<form method="POST" class="ui form" action="{% url 'edit_game_action' gid=form.gid %}">{% csrf_token %}
 				<div class="required field">
 					<label>Title</label>
-					<input placeholder="Game Title" type="text" name="gameTitle" value="{{form.title}}">
+					<input placeholder="Game Title" type="text" name="title" value="{{form.title}}">
 				</div>
 				<div class="required field">
 					<label>Game Type</label>

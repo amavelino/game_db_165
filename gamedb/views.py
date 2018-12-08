@@ -40,7 +40,7 @@ def add_company_action(request):
 	if request.method == "POST":
 		form = request.POST
 		name = request.POST['companyName']
-		desc = request.POST['companyDescription']
+		desc = request.POST['companyDesedcription']
 		new_company = Company(name=name, description=desc)
 		new_company.save()
 	form = None
@@ -161,7 +161,7 @@ def edit_game_action(request, gid):
 		form = request.POST
 		form._mutable = True
 		form.update(gid=gid)
-		title = request.POST['gameTitle']
+		title = request.POST['title']
 		game_type = request.POST['game_type']
 		release_date = request.POST['release_date']
 		description = request.POST['description']
