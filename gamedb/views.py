@@ -123,18 +123,20 @@ def show_game_info(request, gid):
 	game = Game.objects.get(pk=gid)
 	comments = Comment.objects.filter(gid=gid)
 
-	user_comment = Comment.objects.filter(gid=gid, made_by=request.user)
+	form = None
+	if request.user.is_authenticated:
+		user_comment = Comment.objects.filter(gid=gid, made_by=request.user)
 
-	comment_details = {}
-	if user_comment:
-		comment_details['comment'] = user_comment[0].content
-		comment_details['rating'] = user_comment[0].rating
-		comment_details['commid'] = user_comment[0].commid
-		comment_details['exists'] = 1
-	else:
-		comment_details['rating'] = 3
-	form = QueryDict('', mutable=True)
-	form.update(comment_details)
+		comment_details = {}
+		if user_comment:
+			comment_details['comment'] = user_comment[0].content
+			comment_details['rating'] = user_comment[0].rating
+			comment_details['commid'] = user_comment[0].commid
+			comment_details['exists'] = 1
+		else:
+			comment_details['rating'] = 3
+		form = QueryDict('', mutable=True)
+		form.update(comment_details)
 
 	return render(request, 'show-game-info.html', {'game':game, 'comments':comments, 'form': form})
 
